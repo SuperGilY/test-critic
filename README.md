@@ -26,9 +26,12 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 | Path | What |
 |---|---|
 | `skills/spec-to-tests/` | Skill 1, the writer |
+| `skills/spec-prep/` | Skill 0, turns messy requirements into a numbered spec where every rule quotes its source |
 | `skills/test-plan-critic/` | Skill 2, the critic, with the report template |
+| `examples/forgot-password/` | A second domain: the OWASP forgot-password guidance turned into 30 rules by `spec-prep` |
 | `examples/refunds/` | The spec (Stripe refunds, public docs), the 29-test plan, the critic's report |
 | `dashboard/index.html` | The coverage answer board, one self-contained file |
+| `tools/validate_spec.py` | Checks that every rule's quote appears word for word in the source |
 | `tools/validate_plan.py` | Mechanical checks, no model: rule IDs exist, counts add up, High share, required lines |
 | `evaluation/` | The 11 known defects used to check the critic |
 
@@ -41,7 +44,7 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 ## Limits
 
 - No test has been run. "Covered" means the plan has a test for the rule, not that the test passed.
-- One example feature. A second spec has not been tried yet.
+- Two example features. The second (forgot password) has a spec but no test plan or review yet. It comes from a condensed copy of the source, and its test environment is "not provided".
 - The review of plan v8 was done in the same session that wrote the plan, so it is not an independent check.
 - The 11 known defects were found by the author, on one plan.
 - Parts of the spec come from public docs, and some setup steps are marked unverified.
@@ -53,6 +56,8 @@ python3 tools/validate_plan.py examples/refunds/refunds-spec.md examples/refunds
 ```
 
 A model checking its own work missed a bundled test in an earlier run. These checks are plain code, so they do not tire or agree with the writer.
+
+The same idea checks the spec: `python3 tools/validate_spec.py examples/forgot-password/forgot-password-spec.md examples/forgot-password/source-owasp-forgot-password.txt`. On its first run it caught a misquoted rule and a wrong rule count in the spec written by the skill.
 
 ## Use it
 
