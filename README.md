@@ -29,6 +29,7 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 | `skills/test-plan-critic/` | Skill 2, the critic, with the report template |
 | `examples/refunds/` | The spec (Stripe refunds, public docs), the 29-test plan, the critic's report |
 | `dashboard/index.html` | The coverage answer board, one self-contained file |
+| `tools/validate_plan.py` | Mechanical checks, no model: rule IDs exist, counts add up, High share, required lines |
 | `evaluation/` | The 11 known defects used to check the critic |
 
 ## Results so far
@@ -44,6 +45,14 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 - The review of plan v8 was done in the same session that wrote the plan, so it is not an independent check.
 - The 11 known defects were found by the author, on one plan.
 - Parts of the spec come from public docs, and some setup steps are marked unverified.
+
+## Check a plan without a model
+
+```
+python3 tools/validate_plan.py examples/refunds/refunds-spec.md examples/refunds/test-plan-v8.md
+```
+
+A model checking its own work missed a bundled test in an earlier run. These checks are plain code, so they do not tire or agree with the writer.
 
 ## Use it
 
