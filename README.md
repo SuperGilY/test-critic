@@ -42,11 +42,12 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 
 - The critic was checked against 11 defects found by hand in an earlier plan. Critic v3 found 8 clearly. Critic v4 found 9 clearly and 2 partly.
 - Stable rule IDs fixed a real problem: the earlier plan counted 51 claims against 38 rules in the spec. Now the plan and the spec agree on 51.
+- First real run (2026-11-15): one test from the GitHub issues plan (merge closes the linked issue) was run by hand by a tester who does not know GitHub. It passed. It exposed a gap: the steps did not explain what a pull request is or how to make the branch. Both were added to the plan. One test passed once; it does not prove the rest.
 - On the current plan, the critic's top finding is that 27 of 29 tests depend on one setup step nobody has run.
 
 ## Limits
 
-- No test has been run. "Covered" means the plan has a test for the rule, not that the test passed.
+- Only one test has been run so far (see Results). "Covered" means the plan has a test for the rule, not that the test passed.
 - Two example features. The second (forgot password) has a spec but no test plan or review yet. It comes from a condensed copy of the source, and its test environment is "not provided".
 - The review of plan v8 was done in the same session that wrote the plan, so it is not an independent check.
 - The 11 known defects were found by the author, on one plan.

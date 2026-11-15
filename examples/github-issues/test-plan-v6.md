@@ -3,10 +3,12 @@
 ## How to read this
 - **Keyword** = a word GitHub reads as "close this issue on merge": Closes, Fixes. Write it like this: Closes #7
 - **N** = the number of your issue (shown next to its title, e.g. #7)
-- **PR** = pull request
+- **PR** (pull request) = a request to bring the changes of one branch into another, here into main. It is what GitHub reads to link and close issues
+- **Branch** = a separate copy of the files where you can change things without touching main
+- **Merge** = bring the branch changes into main
 - **Set** = a group of tests for one area
 - **P1** = once: new test repo with branches main and other
-- **P1b** = before every test: new branch (t01, t02...) from main, one file edited and saved
+- **P1b** = before every test: Code tab → branch menu (says main) → type the name, e.g. t07 → Create branch → open README.md → pencil icon → add a word → Commit changes → Commit changes. Without this edit GitHub will not let you open a PR
 - **P2** = new issue: Issues tab → New issue → any title → Submit new issue
 - Letters in brackets at the end of a step (A5, V1) = building block in the spec. Ignore them.
 

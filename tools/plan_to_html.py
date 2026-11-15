@@ -60,7 +60,7 @@ covhtml = (f'<section class="card" data-set="__cov"><h2>Coverage</h2>'
            f'<p>{nrun} of {n} tests can run now.</p>{bar(nrun, n)}'
            f'<table><tr><th>Set</th><th>Tests that can run</th><th>Rules covered</th><th>Rules blocked</th></tr>{rows}</table>'
            f'<p class="how">Covered = a test cites the rule and can be run. No test has been run yet.</p></section>')
-tabs = '<button data-t="__ov" class="on">Overview</button><button data-t="__all">All tests</button>' + ''.join(
+tabs = '<button data-t="__all" class="on">All tests</button><button data-t="__ov">Overview</button>' + ''.join(
     f'<button data-t="{e(s)}">{e(s)} <small>{cov([t for t in tests if t["set"] == s])[1]}/{len([t for t in tests if t["set"] == s])}</small></button>' for s in sets) + '<button data-t="__cov">Coverage</button>'
 how = ''.join('<li>' + re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', e(l[2:])) + '</li>' for l in intro.split('\n') if l.startswith('- '))
 ovrows=''.join(f'<tr><td>{t["id"]}</td><td>{e(t["title"])}</td><td>{e(t["set"])}</td><td>{e(t["f"]["Importance"].split(" - ")[0])}</td><td>{"Yes" if t["run"] else "No"}</td></tr>' for t in tests)
@@ -86,7 +86,7 @@ table{{border-collapse:collapse;width:100%;font-size:14px}} td,th{{border-bottom
 <script>
 var bs=document.querySelectorAll('nav button'),cs=document.querySelectorAll('.card[data-set]');
 function show(t){{bs.forEach(function(b){{b.classList.toggle('on',b.dataset.t===t)}});cs.forEach(function(c){{var s=c.dataset.set;c.style.display=(t==='__all'?(s!=='__cov'&&s!=='__ov'):s===t)?'':'none'}});window.scrollTo(0,0)}}
-bs.forEach(function(b){{b.onclick=function(){{show(b.dataset.t)}}}});show('__ov');
+bs.forEach(function(b){{b.onclick=function(){{show(b.dataset.t)}}}});show('__all');
 </script></body></html>'''
 open(sys.argv[2], 'w').write(doc)
 print(len(tests), 'tests,', len(sets), 'sets')
