@@ -29,10 +29,13 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 | `skills/spec-prep/` | Skill 0, turns messy requirements into a numbered spec where every rule quotes its source |
 | `skills/test-plan-critic/` | Skill 2, the critic, with the report template |
 | `examples/forgot-password/` | A second domain: the OWASP forgot-password guidance turned into 30 rules by `spec-prep` |
+| `examples/github-issues/` | A third domain: GitHub Docs on linking and closing issues. 17 rules, 19 tests, critic report, and a colour HTML view of the plan |
 | `examples/refunds/` | The spec (Stripe refunds, public docs), the 29-test plan, the critic's report |
 | `dashboard/index.html` | The coverage answer board, one self-contained file |
 | `tools/validate_spec.py` | Checks that every rule's quote appears word for word in the source |
 | `tools/validate_plan.py` | Mechanical checks, no model: rule IDs exist, counts add up, High share, required lines |
+| `tools/plan_to_html.py` | Turns a plan into colour cards, one per test, grouped by set |
+| `tools/plan_to_automation.py` | Turns a plan into an automation view: one row per step, action or check, as JSON and a table |
 | `evaluation/` | The 11 known defects used to check the critic |
 
 ## Results so far

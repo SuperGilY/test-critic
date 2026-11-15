@@ -6,7 +6,8 @@ Usage: python3 validate_plan.py SPEC.md PLAN.md
 Checks:
   1. Every rule ID a test cites exists in the spec.
   2. The "N tests, M rules" line at the top matches the real counts.
-  3. Every test has all labeled lines and at least 3 numbered steps.
+  3. A step is one action or one check (at most one block tag, no 'then').
+  3b. Every test has all labeled lines and at least 3 numbered steps.
   4. At most 25 percent of tests are High, and every High can run now.
   5. Tests marked "Can I run it now: Yes" do not mention NEEDS HOW.
   6. Test IDs are unique and in order.
@@ -68,6 +69,10 @@ def main(spec_path, plan_path):
                 problems.append(f"{tid}: missing line '{label}'")
         steps = block.split("Steps:")[-1].split("Expected:")[0] if "Steps:" in block else ""
         n_steps = len(re.findall(r"^\d+\.", steps, flags=re.M))
+        for line in re.findall(r"^\d+\..*$", steps, flags=re.M):
+            tags = re.findall(r"\((?:A|V|P)\d+[a-z]?\)", line)
+            if len(tags) > 1 or re.search(r"\bthen\b", line, flags=re.I):
+                problems.append(f"{tid}: a step does more than one thing: '{line[:50]}'")
         if n_steps < 3:
             problems.append(f"{tid}: {n_steps} numbered steps, needs 3 or more.")
         checks = re.search(r"^Checks:(.*)$", block, flags=re.M)

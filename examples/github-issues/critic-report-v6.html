@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Test plan review</title>
+<style>
+:root{--bg:#faf8f5;--card:#fff;--fg:#1d1b20;--muted:#6f6a73;--line:#e8e3dc;--ok:#2f9e6b;--part:#e0a526;--bad:#d9453b;--na:#b9b4bd;--ink:#4b3fd8}
+@media(prefers-color-scheme:dark){:root{--bg:#141318;--card:#1d1c23;--fg:#f1eff4;--muted:#9c97a3;--line:#2d2b35;--ok:#4cc38a;--part:#f0be4a;--bad:#ff6b60;--na:#6a6672;--ink:#9a90ff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+.top{color:var(--muted);font-size:13px;margin-bottom:14px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.hero h1{margin:0;font-size:44px;line-height:1;letter-spacing:-1px;color:var(--bad)}
+.hero p{margin:10px 0 0;font-size:18px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:30px 0 10px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.dots{display:grid;grid-template-columns:repeat(15,1fr);gap:6px;margin:12px 0 10px}
+.dots i{aspect-ratio:1;border-radius:50%;background:var(--bad)}
+.dots i.o{background:var(--line)}
+.cap{font-size:15px}.cap b{color:var(--bad)}
+.bar{display:flex;height:34px;border-radius:10px;overflow:hidden;gap:3px;margin:8px 0 12px}
+.bar button{border:0;color:#fff;font:700 15px system-ui;cursor:pointer;padding:0;transition:flex .2s}
+.bar button[aria-pressed=true]{outline:3px solid var(--fg);outline-offset:-3px}
+.bar .ok{background:var(--ok)}.bar .part{background:var(--part);color:#2b2200}.bar .bad{background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:var(--c)}
+.pick{margin-top:12px;min-height:48px;font-size:15px}
+.pick .g{display:none}.pick .g.on{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chips span{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted)}
+.fix{display:grid;gap:10px}
+.fix .it{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.fix .n{width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;font-weight:700;display:grid;place-items:center}
+.fix b{display:block;font-size:17px}
+.fix span{color:var(--muted);font-size:14px}
+.ask{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ask li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.ask li:last-child{border:0}
+.ask em{display:block;font-style:normal;color:var(--ink);font-size:14px;margin-top:3px}.ask b{font-weight:600}.ask small{color:var(--muted);white-space:nowrap}
+.run{display:grid;gap:8px}
+.run div{display:flex;gap:10px;align-items:baseline}
+.run b{background:var(--ink);color:#fff;border-radius:7px;padding:2px 8px;font-size:13px}
+details{margin-top:28px}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details ul{font-size:14px;color:var(--muted);padding-left:18px}
+</style></head>
+<body><main>
+<div class="top">GitHub issues test plan v6 · reviewed 2026-11-15 · not independent: written in the same session as the plan</div>
+<section class="hero"><h1>Not yet.</h1>
+<p>6 of 17 rules have no usable test, and every click path comes from general knowledge, not from a real run.</p></section>
+
+<h2>Tests that cannot run yet</h2>
+<div class="card"><div class="dots" aria-hidden="true"></div>
+<div class="legend" style="margin-bottom:10px"><span style="--c:var(--bad)">Cannot run yet</span><span style="--c:var(--line)">Can run</span></div>
+<div class="cap"><b>5 of 19 tests</b> need something that does not exist: a second account (T17, T18), a second repository (T15), the list of closing reasons (T19), a comment link (T16).</div></div>
+
+<h2>Fix first</h2>
+<div class="fix card">
+<div class="it"><div class="n">1</div><div><b>Click paths never tried</b><span>Run T07 once by hand. If a step is wrong, every test copies the mistake.</span></div></div>
+<div class="it"><div class="n">2</div><div><b>A second account is missing</b><span>R15 and R16 have no usable test without it.</span></div></div>
+<div class="it"><div class="n">3</div><div><b>No test links by hand</b><span>R11 is not covered, and R1 only half.</span></div></div>
+</div>
+
+<h2>What the plan covers</h2>
+<div class="card"><div class="cap">17 rules in the spec. Covered means the plan has a test for it with a clear pass or fail. No test has been run. Tap a colour.</div>
+<div class="bar" id="bar">
+<button class="ok" style="flex:9" data-g="ok" aria-pressed="false">9</button>
+<button class="part" style="flex:2" data-g="part" aria-pressed="false">2</button>
+<button class="bad" style="flex:6" data-g="bad" aria-pressed="true">6</button>
+</div>
+<div class="legend"><span style="--c:var(--ok)">Covered</span><span style="--c:var(--part)">Partly covered</span><span style="--c:var(--bad)">Not covered</span></div>
+<div class="pick">
+<div class="g" data-g="ok">The plan has a test with a clear pass or fail.<div class="chips"><span>R2</span><span>R3</span><span>R4</span><span>R5</span><span>R6</span><span>R8</span><span>R9</span><span>R10</span><span>R12</span></div></div>
+<div class="g" data-g="part">A test exists but misses part of the rule.<div class="chips"><span>R1</span><span>R14</span></div></div>
+<div class="g on" data-g="bad"><b>5</b> cannot be tested yet: something is missing (R7, R13, R15, R16, R17). <b>1</b> has no test and no reason (R11).<div class="chips"><span>R7</span><span>R11</span><span>R13</span><span>R15</span><span>R16</span><span>R17</span></div></div>
+</div></div>
+
+<h2>Ask the spec owner</h2>
+<div class="card"><ul class="ask">
+<li><div><b>A comment under a pull request says "Closes #10". Is issue #10 linked?</b><em>Reply: yes or no.</em></div><small>T04</small></li>
+<li><div><b>A pull request saying "Closes #10" is closed without merging. Does #10 stay open?</b><em>Reply: yes or no.</em></div><small>T11</small></li>
+<li><div><b>The description says "Closes #9999" and there is no issue 9999. Is the merge allowed?</b><em>Reply: what is shown.</em></div><small>T12</small></li>
+<li><div><b>Which reasons can you pick when closing an issue?</b><em>Reply: the list.</em></div><small>T19</small></li>
+</ul></div>
+
+<h2>Run these first</h2>
+<div class="card run">
+<div><b>T07</b>Merging a linked pull request: the issue must close.</div>
+<div><b>T05</b>Keyword on a pull request into another branch: the issue must stay open.</div>
+<div><b>T13</b>Keyword only in a commit message: the issue must close on merge.</div>
+</div>
+
+<details><summary>Details</summary>
+<ul>
+<li>T19 step 2: "NEEDS HOW: which reason, until the list is known." It cannot run until the list is known.</li>
+<li>T15 and T16 use placeholders ("OWNER/REPOSITORY#NUMBER") and need things that do not exist yet.</li>
+<li>T12 cites no rule. T10, T11, T03 and T04 are edge cases with ASSUMPTION results.</li>
+<li>T11 may need to be High: an issue closed by mistake is wrongly changed data.</li>
+<li>Missing tests: link by hand and unlink by hand (R11), two pull requests with the same issue (Q6), a second person sees the link (R14).</li>
+<li>Every expected result comes from a docs excerpt and general knowledge of the website. Nothing was run.</li>
+<li>Needs a tester: a second account and a second repository.</li>
+</ul>
+</details>
+</main>
+<script>
+var d=document.querySelector('.dots');for(var i=0;i<19;i++){var e=document.createElement('i');if(i>=5)e.className='o';d.appendChild(e)}
+var bs=document.querySelectorAll('#bar button'),gs=document.querySelectorAll('.pick .g');
+bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.setAttribute('aria-pressed',x===b)});gs.forEach(function(g){g.classList.toggle('on',g.dataset.g===b.dataset.g)})}});
+</script></body></html>

@@ -1,0 +1,713 @@
+[
+ {
+  "id": "T01",
+  "set": "Keywords and linking",
+  "title": "A keyword in the description links the pull request to the issue",
+  "rules": [
+   "R1",
+   "R6",
+   "R14"
+  ],
+  "runnable": true,
+  "setup": "New branch t01 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t01 → Create pull request → description: Closes #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "check",
+    "block": "V2",
+    "what": "Check the PR",
+    "how": "Pull requests tab → open it. Look at: Open/Merged/Closed, issue it will close."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The pull request page lists issue N as one it may close. The issue's side panel shows the pull request. ASSUMPTION: the exact wording on the screen is not in the spec."
+ },
+ {
+  "id": "T02",
+  "set": "Keywords and linking",
+  "title": "Uppercase keyword with a colon works",
+  "rules": [
+   "R5"
+  ],
+  "runnable": true,
+  "setup": "New branch t04 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t04 → Create pull request → description: CLOSES: #N (capital letters, a colon, the real number instead of N) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed."
+ },
+ {
+  "id": "T03",
+  "set": "Keywords and linking",
+  "title": "A word that is not on the keyword list",
+  "rules": [],
+  "runnable": true,
+  "setup": "New branch t15 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t15 → Create pull request → description: Closing #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is still Open. ASSUMPTION: the word Closing is not a keyword."
+ },
+ {
+  "id": "T04",
+  "set": "Keywords and linking",
+  "title": "A keyword written in a comment, not in the description",
+  "rules": [],
+  "runnable": true,
+  "setup": "New branch t16 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t16 → Create pull request → description: plain text (no keyword) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A9",
+    "what": "Add a comment",
+    "how": "open the PR → comment box at the bottom → type: Closes #N (real number) → Comment."
+   },
+   {
+    "n": 3,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "ASSUMPTION: the issue is still Open."
+ },
+ {
+  "id": "T05",
+  "set": "Keywords and linking",
+  "title": "A keyword on a pull request into another branch does nothing",
+  "rules": [
+   "R3",
+   "R4"
+  ],
+  "runnable": true,
+  "setup": "New branch t03 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A3",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: other, compare: t03 → Create pull request → description: Closes #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   },
+   {
+    "n": 3,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue shows no linked pull request, and after the merge it is still Open."
+ },
+ {
+  "id": "T06",
+  "set": "Keywords and linking",
+  "title": "Removing the keyword unlinks the issue",
+  "rules": [
+   "R12"
+  ],
+  "runnable": true,
+  "setup": "New branch t07 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t07 → Create pull request → description: Closes #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   },
+   {
+    "n": 3,
+    "type": "action",
+    "block": "A4",
+    "what": "Edit the description",
+    "how": "open the PR → three dots on the description → Edit → delete the text, type \"no keyword\" → Update comment."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   },
+   {
+    "n": 5,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 6,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "After the edit the issue shows no linked pull request. After the merge the issue is still Open."
+ },
+ {
+  "id": "T07",
+  "set": "Closing by merge",
+  "title": "Merging the linked pull request closes the issue",
+  "rules": [
+   "R2"
+  ],
+  "runnable": true,
+  "setup": "New branch t02 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t02 → Create pull request → description: Closes #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed."
+ },
+ {
+  "id": "T08",
+  "set": "Closing by merge",
+  "title": "Two issues, each with its own keyword, both close",
+  "rules": [
+   "R8"
+  ],
+  "runnable": true,
+  "setup": "New branch t05 (P1b). Create two open issues: do P2 twice. Write down both numbers (N and M).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t05 → Create pull request → description: Closes #N, closes #M (the real numbers) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check issue N",
+    "how": "Issues tab → #N. Look at: Open/Closed."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check issue M",
+    "how": "Issues tab → #M. Look at: Open/Closed."
+   }
+  ],
+  "final_check": "Both issues are Closed."
+ },
+ {
+  "id": "T09",
+  "set": "Closing by merge",
+  "title": "One keyword for two issues closes only the first",
+  "rules": [
+   "R8"
+  ],
+  "runnable": true,
+  "setup": "New branch t06 (P1b). Create two open issues: do P2 twice. Write down both numbers (N and M).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t06 → Create pull request → description: Closes #N, #M (one keyword, two real numbers) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check issue N",
+    "how": "Issues tab → #N. Look at: Open/Closed."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check issue M",
+    "how": "Issues tab → #M. Look at: Open/Closed."
+   }
+  ],
+  "final_check": "Issue N is Closed. ASSUMPTION: issue M stays Open."
+ },
+ {
+  "id": "T10",
+  "set": "Closing by merge",
+  "title": "A merge that mentions an issue that is already closed",
+  "rules": [],
+  "runnable": true,
+  "setup": "New branch t12 (P1b). Open issue, write down N (P2). Close it: open the issue → Close issue. (A6)",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t12 → Create pull request → description: Closes #N (the real number of the closed issue) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "ASSUMPTION: the merge works, the issue stays Closed and no error is shown. The test fails if the merge fails or the issue opens again."
+ },
+ {
+  "id": "T11",
+  "set": "Closing by merge",
+  "title": "Closing the pull request without merging leaves the issue open",
+  "rules": [
+   "R2"
+  ],
+  "runnable": true,
+  "setup": "New branch t13 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t13 → Create pull request → description: Closes #N (real number) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A8",
+    "what": "Close the PR without merging",
+    "how": "open it → Close pull request (bottom of the page)."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is still Open. ASSUMPTION: not stated in the spec."
+ },
+ {
+  "id": "T12",
+  "set": "Closing by merge",
+  "title": "A keyword for an issue number that does not exist",
+  "rules": [],
+  "runnable": true,
+  "setup": "New branch t14 (P1b). You do not need an issue. Pick a number much higher than the number of issues you have, for example 9999.",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t14 → Create pull request → description: Closes #9999 → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V2",
+    "what": "Check the PR",
+    "how": "Pull requests tab → open it. Look at: Open/Merged/Closed, issue it will close."
+   }
+  ],
+  "final_check": "ASSUMPTION: the pull request is created and merged, and no issue is changed. The test fails if creating or merging gives an error."
+ },
+ {
+  "id": "T13",
+  "set": "Keyword in a commit message",
+  "title": "A keyword in a commit message closes the issue on merge",
+  "rules": [
+   "R9"
+  ],
+  "runnable": true,
+  "setup": "New branch t08 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A7",
+    "what": "Commit with a keyword",
+    "how": "Code tab → branch t08 → open a file → pencil icon → change one word → Commit changes → message: Fixes #N (real number) → Commit changes."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t08 → Create pull request → description: plain text (no keyword) → Create pull request."
+   },
+   {
+    "n": 3,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed. ASSUMPTION: GitHub reads the keyword from the commit message when the pull request is merged."
+ },
+ {
+  "id": "T14",
+  "set": "Keyword in a commit message",
+  "title": "A commit-message keyword does not show the pull request as linked",
+  "rules": [
+   "R10"
+  ],
+  "runnable": true,
+  "setup": "New branch t09 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A7",
+    "what": "Commit with a keyword",
+    "how": "Code tab → branch t09 → open a file → pencil icon → change one word → Commit changes → message: Fixes #N (real number) → Commit changes."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t09 → Create pull request → description: plain text (no keyword) → Create pull request."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V2",
+    "what": "Check the PR",
+    "how": "Pull requests tab → open it. Look at: Open/Merged/Closed, issue it will close."
+   }
+  ],
+  "final_check": "The issue does not list the pull request as linked. The pull request page lists no issue it may close. ASSUMPTION: the second part is not stated in the spec."
+ },
+ {
+  "id": "T15",
+  "set": "Other repositories and pull requests",
+  "title": "Closing an issue in another repository",
+  "rules": [
+   "R7"
+  ],
+  "runnable": false,
+  "setup": "New branch t17 (P1b). Create an open issue in the second repository and write down its number. NEEDS HOW: the second repository.",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t17 → Create pull request → description: Fixes OWNER/REPOSITORY#NUMBER (the real owner name, repository name and number of the issue in the second repository) → Create pull request."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue in the second repository",
+    "how": "Issues tab → its number."
+   }
+  ],
+  "final_check": "The issue in the second repository is Closed."
+ },
+ {
+  "id": "T16",
+  "set": "Other repositories and pull requests",
+  "title": "A keyword that points to a pull request comment",
+  "rules": [
+   "R13"
+  ],
+  "runnable": false,
+  "setup": "New branch t19 (P1b). Open a second pull request on its own branch. NEEDS HOW.",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "",
+    "what": "In the second pull request, copy the link of one comment. NEEDS HOW.",
+    "how": ""
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A2",
+    "what": "Open a PR",
+    "how": "Pull requests tab → New pull request → base: main, compare: t19 → Create pull request → description: Fixes (the link of the comment) → Create pull request."
+   },
+   {
+    "n": 3,
+    "type": "action",
+    "block": "A5",
+    "what": "Merge it",
+    "how": "open the PR → Merge pull request → Confirm merge."
+   },
+   {
+    "n": 4,
+    "type": "check",
+    "block": "V2",
+    "what": "Check the second PR",
+    "how": "Pull requests tab → open it."
+   }
+  ],
+  "final_check": "The second pull request is Closed."
+ },
+ {
+  "id": "T17",
+  "set": "Who can close an issue, and why",
+  "title": "The person who opened an issue can close it",
+  "rules": [
+   "R15"
+  ],
+  "runnable": false,
+  "setup": "New branch t10 (P1b). Log in with the second account and create an open issue in the test repository. Write down its number (N).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue as the second account",
+    "how": "log in → Issues tab → #N."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A6",
+    "what": "Close the issue",
+    "how": "open it → Close issue (bottom of the page)."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed."
+ },
+ {
+  "id": "T18",
+  "set": "Who can close an issue, and why",
+  "title": "Who can close an issue opened by someone else",
+  "rules": [
+   "R16"
+  ],
+  "runnable": false,
+  "setup": "New branch t18 (P1b). Log in with the second account and create an open issue in the test repository. Write down its number (N). Your own account owns the repository, so it has triage permission or more.",
+  "steps": [
+   {
+    "n": 1,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue the second account created",
+    "how": "Issues tab → #N."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A6",
+    "what": "Close the issue",
+    "how": "open it → Close issue (bottom of the page)."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed."
+ },
+ {
+  "id": "T19",
+  "set": "Who can close an issue, and why",
+  "title": "The reason for closing is saved",
+  "rules": [
+   "R17"
+  ],
+  "runnable": false,
+  "setup": "New branch t11 (P1b). Open issue, write down N (P2).",
+  "steps": [
+   {
+    "n": 1,
+    "type": "action",
+    "block": "A6",
+    "what": "Read the closing reasons",
+    "how": "open the issue → small arrow next to Close issue → write down the list."
+   },
+   {
+    "n": 2,
+    "type": "action",
+    "block": "A6",
+    "what": "Close with another reason",
+    "how": "arrow next to Close issue → pick a reason that is not the first → Close issue. NEEDS HOW: which reason."
+   },
+   {
+    "n": 3,
+    "type": "check",
+    "block": "V1",
+    "what": "Check the issue",
+    "how": "Issues tab → #N. Look at: Open/Closed, side panel (linked PR)."
+   }
+  ],
+  "final_check": "The issue is Closed and shows the reason you chose. ASSUMPTION: the reason is shown on the issue."
+ }
+]

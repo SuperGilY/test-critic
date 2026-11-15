@@ -40,6 +40,9 @@ An edge test often has no rule that supports it. Do not stretch a rule to fit. W
 - If a test needs a preparation, action or view that the spec does not have, write "NEEDS HOW: ..." and do not invent it.
 - Use a different test payment method for each independent scenario if the spec says state carries over.
 
+## 3b. Group into sets
+Group the tests into 3 to 6 sets, one per area of the feature, each under a heading `## Set - <name>`. Test IDs run in order through the file. The structure is plan, sets, tests.
+
 ## 4. Write each test
 Use exactly these labeled lines, in this order:
 
@@ -55,6 +58,8 @@ Expected: what can be seen, in plain words. Mark every part that is not in the s
 Rules:
 - One scenario per test.
 - At least 3 steps: do something, look at the answer, look at the final state (use a V).
+- Each step says where to click and what to type, exactly, in plain words (for example: Pull requests tab, New pull request, choose the branches, type the text, Create pull request). The block ID goes in brackets at the end, never instead of the words. Explain any word the reader may not know once, near the top.
+- A step is one action or one check, never both. No "then" inside a step. Automation needs this: a bot cannot split a mixed step.
 - A step never contains only field names or commands. The plain sentence always comes first.
 - "Importance": High only if money or data is lost or wrongly moved, or access is wrong, AND the test can be run. At most 25 percent High.
 - 20 to 30 tests. Fewer, sharper tests beat many similar ones.
@@ -77,3 +82,7 @@ Nothing else. No summary page, no risk section, no questions section, no coverag
 - Short sentences. Plain hyphen only. Plain words.
 - Do not copy the spec into expected results.
 - Do not write code.
+
+
+## 5. Readable view
+After the plan passes the checks, render it with `python3 tools/plan_to_html.py PLAN.md PLAN.html`. Each test becomes a card: blue = what it checks, yellow = before you start, purple = steps, green = expected. Added after the human gate said the plain-text labels looked like one block.
