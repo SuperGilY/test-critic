@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Test plan review</title>
+<style>
+:root{--bg:#faf8f5;--card:#fff;--fg:#1d1b20;--muted:#6f6a73;--line:#e8e3dc;--ok:#2f9e6b;--part:#e0a526;--bad:#d9453b;--na:#b9b4bd;--ink:#4b3fd8}
+@media(prefers-color-scheme:dark){:root{--bg:#141318;--card:#1d1c23;--fg:#f1eff4;--muted:#9c97a3;--line:#2d2b35;--ok:#4cc38a;--part:#f0be4a;--bad:#ff6b60;--na:#6a6672;--ink:#9a90ff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 60px}
+.top{color:var(--muted);font-size:13px;margin-bottom:14px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.hero h1{margin:0;font-size:44px;line-height:1;letter-spacing:-1px;color:var(--bad)}
+.hero p{margin:10px 0 0;font-size:18px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:30px 0 10px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.dots{display:grid;grid-template-columns:repeat(15,1fr);gap:6px;margin:12px 0 10px}
+.dots i{aspect-ratio:1;border-radius:50%;background:var(--bad)}
+.dots i.o{background:var(--line)}
+.cap{font-size:15px}.cap b{color:var(--bad)}
+.bar{display:flex;height:34px;border-radius:10px;overflow:hidden;gap:3px;margin:8px 0 12px}
+.bar button{border:0;color:#fff;font:700 15px system-ui;cursor:pointer;padding:0;transition:flex .2s}
+.bar button[aria-pressed=true]{outline:3px solid var(--fg);outline-offset:-3px}
+.bar .ok{background:var(--ok)}.bar .part{background:var(--part);color:#2b2200}.bar .bad{background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:var(--c)}
+.pick{margin-top:12px;min-height:48px;font-size:15px}
+.pick .g{display:none}.pick .g.on{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chips span{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted)}
+.fix{display:grid;gap:10px}
+.fix .it{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.fix .n{width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;font-weight:700;display:grid;place-items:center}
+.fix b{display:block;font-size:17px}
+.fix span{color:var(--muted);font-size:14px}
+.ask{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ask li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.ask li:last-child{border:0}
+.ask em{display:block;font-style:normal;color:var(--ink);font-size:14px;margin-top:3px}.ask b{font-weight:600}.ask small{color:var(--muted);white-space:nowrap}
+.run{display:grid;gap:8px}
+.run div{display:flex;gap:10px;align-items:baseline}
+.run b{background:var(--ink);color:#fff;border-radius:7px;padding:2px 8px;font-size:13px}
+details{margin-top:28px}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details ul{font-size:14px;color:var(--muted);padding-left:18px}
+</style></head><body><main>
+<div class="top">Refund test plan v8 · reviewed 2026-11-15</div>
+
+<section class="hero">
+<h1>Not yet.</h1>
+<p>27 of 29 tests rest on one setup step nobody has run, and 24 of 51 rules have no usable test.</p>
+</section>
+
+<h2>One shaky step under everything</h2>
+<div class="card">
+<div class="dots" aria-hidden="true"><!--29 dots: 27 red, 2 grey--></div>
+<div class="legend" style="margin-bottom:10px"><span style="--c:var(--bad)">Depends on the unchecked step</span><span style="--c:var(--line)">Does not (may have other problems)</span></div>
+<div class="cap"><b>27 of 29 tests</b> start with the same setup step (P1 or a variant). Its card form is marked "unverified" in the spec. If it is wrong, they fail before testing anything.</div>
+</div>
+
+<h2>Fix first</h2>
+<div class="fix card">
+<div class="it"><div class="n">1</div><div><b>Run the setup step once</b><span>27 tests rest on it.</span></div></div>
+<div class="it"><div class="n">2</div><div><b>T19 cannot fail</b><span>It only says "write down what happens".</span></div></div>
+<div class="it"><div class="n">3</div><div><b>T07 and T25 can pass for nothing</b><span>Two requests sent by hand may not arrive at the same moment.</span></div></div>
+</div>
+
+<h2>What the plan covers</h2>
+<div class="card">
+<div class="cap">51 rules in the spec. Covered means the plan has a test for it with a clear pass or fail. Tap a colour.</div>
+<div class="bar" id="bar">
+<button class="ok" style="flex:19" data-g="ok" aria-pressed="false">19</button>
+<button class="part" style="flex:8" data-g="part" aria-pressed="false">8</button>
+<button class="bad" style="flex:24" data-g="bad" aria-pressed="true">24</button>
+</div>
+<div class="legend"><span style="--c:var(--ok)">Covered</span><span style="--c:var(--part)">Partly covered</span><span style="--c:var(--bad)">Not covered</span></div>
+<div class="pick">
+<div class="g" data-g="ok">The plan has a test with a clear pass or fail.<div class="chips"><span>R1a</span><span>R1b</span><span>R2</span><span>R3a</span><span>R3b</span><span>R4</span><span>R5</span><span>R6</span><span>R7a</span><span>R7b</span><span>R10</span><span>R18a</span><span>R18b</span><span>R24b</span><span>R26</span><span>R27b</span><span>R37</span><span>R38a</span><span>R38b</span></div></div>
+<div class="g" data-g="part">A test exists but misses part of the rule, or may pass for the wrong reason.<div class="chips"><span>R3c</span><span>R17</span><span>R19</span><span>R24a</span><span>R27a</span><span>R32</span><span>R33</span><span>R35</span></div></div>
+<div class="g on" data-g="bad"><b>4</b> have a test that cannot run yet (R13, R14, R15a, R20). <b>20</b> have no test, and the plan gives no reason.<div class="chips"><span>R13</span><span>R14</span><span>R15a</span><span>R20</span><span>R8</span><span>R9a</span><span>R9b</span><span>R11</span><span>R12</span><span>R15b</span><span>R16</span><span>R18c</span><span>R21</span><span>R22</span><span>R23</span><span>R25</span><span>R27c</span><span>R28</span><span>R29</span><span>R30a</span><span>R30b</span><span>R31</span><span>R34</span><span>R36</span></div></div>
+</div></div>
+
+<h2>Ask the spec owner</h2>
+<div class="card"><ul class="ask">
+<li><div><b>A customer paid 20.00. Two refunds of 15.00 arrive at the same moment. Is one allowed and one refused?</b><em>Reply: yes, or describe what should happen.</em></div><small>T07</small></li>
+<li><div><b>A refund of 0.00 or -1.00 is requested on a 20.00 payment. Should it be refused?</b><em>Reply: yes or no, and the error text if yes.</em></div><small>T08, T24</small></li>
+<li><div><b>A refund of 5.00 failed, or was cancelled. Can the same 5.00 be refunded again?</b><em>Reply: yes or no.</em></div><small>none yet</small></li>
+<li><div><b>The customer disputed a 20.00 payment with their bank. Can we still refund it?</b><em>Reply: yes, no, or only part.</em></div><small>T19</small></li>
+<li><div><b>For a currency with no cents, like yen: does a refund amount of 500 mean 500 yen?</b><em>Reply: yes or no.</em></div><small>T27</small></li>
+<li><div><b>Can a person whose key has no refund permission still create a refund?</b><em>Reply: yes or no, and the error text if no.</em></div><small>T26</small></li>
+</ul></div>
+
+<h2>Run these first</h2>
+<div class="card run">
+<div><b>T22</b>Same refund sent twice with one key: must not pay twice.</div>
+<div><b>T06</b>Refund bigger than what is left: must be refused.</div>
+<div><b>T13</b>Refund on a payment on hold: must be refused.</div>
+</div>
+
+<details><summary>Details</summary>
+<ul>
+<li><b>What is wrong in each test</b></li>
+<li>T19: "Write down what happens (refund made or refused)". No pass or fail.</li>
+<li>T08: two scenarios in one test. Quote: "Ask for a refund of -100". Zero is a separate step.</li>
+<li>T16, T17: "Wait a few minutes, then look again". The spec says "The delay is not stated" (E4).</li>
+<li>T20: the refund is already done on this card (E7: "refunds succeed immediately"), so a refusal may not come from R24a.</li>
+<li>T24: relies on -1 being invalid. Quote: "ASSUMPTION: step 1 fails at validation, so the key is free."</li>
+<li>T25: "If one was refused, send it again". A branch inside the test.</li>
+<li>T07, T25: a pass proves nothing if the two requests were not at the same moment.</li>
+<li>T12: "Can I run it now: Yes", but the spec marks the metadata call "[unverified syntax]".</li>
+<li>T13, T14: "Yes", but V3 is marked "[same pattern as V1 and V2, page not opened]".</li>
+<li>T21: step 3 uses the charge ID, but "Before you start" only says to write down the refund ID.</li>
+<li>T13: marked Medium. Money would move on a payment that was never captured. It should be High.</li>
+<li><b>What is wrong in the plan as a whole</b></li>
+<li>P1 and its variants hold 27 of 29 tests. The card form is marked "[unverified]" in the spec.</li>
+<li>20 rules have no test and the plan does not say why.</li>
+<li>Rule IDs match the spec. No ID was split or invented.</li>
+<li><b>Tests that are missing</b></li>
+<li>Refund on a cancelled PaymentIntent (R27c).</li>
+<li>Refund again after a refund failed or was cancelled.</li>
+<li>Refund amount with decimals or letters (R3c).</li>
+<li>A key of 255 and 256 characters (R34).</li>
+<li>A repeated or out-of-order event (R32).</li>
+<li>Check for the reversal field on a quick refund (R28).</li>
+<li><b>Vague rules in the spec</b></li>
+<li>R24b: "Some card refunds can be cancelled for a short time". Which ones.</li>
+<li>R29: "about 5-10 business days". Cannot be tested in test mode.</li>
+<li><b>What the tester needs</b></li>
+<li>Test-mode secret key (tester). Without it nothing runs.</li>
+<li>Two terminal windows (tester). Without them T07 and T25 prove nothing.</li>
+<li>Dashboard access in test mode (tester). T21 and T29 do not run without it.</li>
+<li>A way to make a limited key, a pending balance, a yen charge (spec owner or tester). T26, T28, T27 stay blocked.</li>
+<li><b>Risks someone must accept</b></li>
+<li>24 of 51 rules are not covered. Owner: QA lead. If nobody accepts this, they are never tested.</li>
+<li>Many expected error texts are guesses marked ASSUMPTION. Owner: spec owner.</li>
+</ul></details>
+</main>
+<script>
+var d=document.querySelector('.dots');for(var i=0;i<29;i++){var e=document.createElement('i');if(i>=27)e.className='o';d.appendChild(e)}
+var bs=document.querySelectorAll('#bar button'),gs=document.querySelectorAll('.pick .g');
+bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.setAttribute('aria-pressed',x===b)});gs.forEach(function(g){g.classList.toggle('on',g.dataset.g===b.dataset.g)})}});
+</script></body></html>

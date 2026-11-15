@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Test Coverage Answer Board</title>
+<style>
+/* Tokens. Layout: answer card on top (what a manager asks), area bars below as the selector, details folded. */
+:root{--bg:#faf8f5;--card:#fff;--fg:#1d1b20;--muted:#6f6a73;--line:#e8e3dc;--ok:#2f9e6b;--part:#e0a526;--bad:#d9453b;--ink:#4b3fd8;--soft:#f3f0ff;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141318;--card:#1d1c23;--fg:#f1eff4;--muted:#9c97a3;--line:#2d2b35;--ok:#4cc38a;--part:#f0be4a;--bad:#ff6b60;--ink:#9a90ff;--soft:#26233a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141318;--card:#1d1c23;--fg:#f1eff4;--muted:#9c97a3;--line:#2d2b35;--ok:#4cc38a;--part:#f0be4a;--bad:#ff6b60;--ink:#9a90ff;--soft:#26233a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:860px;margin:0 auto;padding:22px 16px 70px}
+h1{font-size:24px;margin:0 0 2px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.src{color:var(--muted);font-size:12px;margin-top:10px}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+/* answer card */
+.ans{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.big{position:relative;width:150px;height:150px}
+.big svg{width:100%;height:100%;transform:rotate(-90deg)}
+.big circle{fill:none;stroke-width:5.5}
+.big .mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.big .mid b{font-size:38px;line-height:1;font-variant-numeric:tabular-nums}
+.big .mid span{font-size:12px;color:var(--muted)}
+.ans h3{margin:0 0 4px;font-size:20px}
+.cnt{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.cnt span{font-size:14px;border:1px solid var(--line);border-radius:999px;padding:2px 11px;display:inline-flex;gap:7px;align-items:center}
+.cnt i{width:10px;height:10px;border-radius:3px}
+.gaps{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
+.gaps li:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-right:9px}
+.say{margin-top:16px;background:var(--soft);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.say p{margin:0;font-size:15px}
+.say button{flex:none;border:0;background:var(--ink);color:#fff;border-radius:10px;padding:8px 14px;font:600 14px system-ui;cursor:pointer}
+@media(max-width:600px){.ans{grid-template-columns:1fr;justify-items:start}.say{flex-direction:column;align-items:flex-start}}
+/* area rows */
+.areas{display:grid;gap:8px}
+.ar{display:grid;grid-template-columns:170px 1fr 48px;gap:12px;align-items:center;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;color:var(--fg);cursor:pointer;text-align:left}
+.ar[aria-pressed=true]{border-color:var(--fg);box-shadow:0 0 0 1px var(--fg)}
+.ar b{font-size:14px;font-weight:600}
+.ar small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.ar .pc{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.stk{display:flex;height:18px;gap:2px;border-radius:6px;overflow:hidden;background:var(--line)}
+.stk i{display:block;height:100%}
+@media(max-width:600px){.ar{grid-template-columns:1fr 44px}.ar .stk{grid-column:1/3;order:3}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+.legend span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;background:var(--c);vertical-align:-1px}
+.warn{margin-top:12px;font-size:13px;color:var(--muted);background:var(--soft);border-radius:12px;padding:9px 12px}
+/* folded details */
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:12px}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;margin:12px 0}
+.tile{position:relative;border:2px solid transparent;border-radius:12px;height:48px;font:700 14px system-ui;color:#fff;cursor:pointer;background:var(--ok);padding:0}
+.tile.f{background:var(--part);color:#2b2200}
+.tile.n{background:repeating-linear-gradient(135deg,var(--line) 0 6px,var(--card) 6px 12px);color:var(--muted);border-color:var(--line)}
+.tile.h{box-shadow:0 0 0 3px var(--ink)}
+.tile[aria-pressed=true]{outline:3px solid var(--fg);outline-offset:2px}
+.det{background:var(--soft);border-radius:12px;padding:12px 14px;min-height:84px;margin-top:12px}
+.det b{font-size:16px}
+.det .meta{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;font-size:12px}
+.det .meta span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.det p{margin:4px 0 0;font-size:14px}
+.legend .hh:before{background:var(--card);box-shadow:0 0 0 2px var(--ink)}
+.score{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.score .big{width:120px;height:120px}
+.score .big .mid b{font-size:28px}
+</style></head><body><main>
+<h1>Test Coverage Answer Board</h1>
+<p class="sub">Example feature: Stripe refunds. Pick an area, get the answer. Plan v8, reviewed 2026-11-15.</p>
+
+<div class="card" id="ans" aria-live="polite">
+<div class="ans">
+<div class="big"><svg viewBox="0 0 36 36" id="bigsvg" role="img" aria-label="Coverage ring"></svg><div class="mid"><b id="pc">37%</b><span>clearly covered</span></div></div>
+<div>
+<h3 id="an">All refunds</h3>
+<div class="cnt" id="cnt"></div>
+<ul class="gaps" id="gaps"></ul>
+</div>
+</div>
+<div class="say"><p id="say"></p><button id="copy" type="button">Copy</button></div>
+<div class="src">Sources: refunds-spec.md v2 (rules), test-plan-refunds-v8.md (tests), critic-report-v8.html (coverage calls).</div>
+</div>
+
+<h2>By area of the feature</h2>
+<div class="areas" id="areas"></div>
+<div class="legend"><span style="--c:var(--ok)">Covered: a test with a clear pass or fail</span><span style="--c:var(--part)">Partly covered</span><span style="--c:var(--line)">Not covered</span></div>
+<div class="warn">"Covered" means the plan has a test for the rule. No test has been run yet, so none has passed or failed.</div>
+
+<h2>Behind the answer</h2>
+<details><summary>The 29 tests, one tile each</summary>
+<div class="map" id="map"></div>
+<div class="legend"><span style="--c:var(--ok)">Clean</span><span style="--c:var(--part)">Flagged by the critic</span><span style="--c:var(--line)">Cannot run now</span><span class="hh">High importance</span></div>
+<div class="det" id="det"></div>
+<div class="src">Source: test-plan-refunds-v8.md and critic-report-v8.html. 12 clean, 12 flagged, 5 cannot run.</div>
+</details>
+<details><summary>How well the critic works</summary>
+<div class="score"><div class="big"><svg viewBox="0 0 36 36" id="ring2" role="img" aria-label="Critic v4 found 9 of 11 known defects clearly and 2 partly"></svg><div class="mid"><b>9/11</b><span>found clearly</span></div></div>
+<div style="font-size:14px"><div><b style="color:var(--ok)">9</b> found clearly</div><div><b style="color:var(--part)">2</b> found partly</div><div><b style="color:var(--bad)">0</b> missed</div></div></div>
+<div class="warn">Critic v4 on 11 defects found by hand in plan v6 (run C, 2026-11-03). The v8 review is not scored: it ran in the same session that wrote plan v8.</div>
+<div class="src">Source: critic-baseline.md.</div>
+</details>
+</main>
+<script>
+var AREAS=[
+{n:'All refunds',sub:'51 rules',c:19,p:8,x:24,gaps:['Balance and fees: no test at all (4 rules). The setup is missing.','Disputes and bank-return flows cannot be set up yet (R20, R22, R23).','20 rules have no test and the plan gives no reason.']},
+{n:'Creating a refund',sub:'18 rules',c:11,p:1,x:6,gaps:['Not tested: refund email instructions, application fee, transfer reversal (R8, R9a, R9b).','Not tested: refund goes only to the original method, bulk refund full only (R11, R12).','Dashboard "Other needs a note" has a test that cannot run (R13).']},
+{n:'Balance and fees',sub:'4 rules',c:0,p:0,x:4,gaps:['All 4 rules untested (R14, R15a, R15b, R16).','Needs a charge whose money is still pending, and a way to read the balance.','Fees not returned (R16) has no way to be checked yet.']},
+{n:'Statuses and failures',sub:'9 rules',c:2,p:2,x:5,gaps:['Dispute during a pending refund: test exists but cannot run (R20).','Refunds that need customer action cannot be set up with known test cards (R22, R23).','Failed refunds returning to balance in 30 days is untested (R18c).']},
+{n:'Cancelling',sub:'7 rules',c:3,p:2,x:2,gaps:['Cancelling a refund that needs customer action is untested (R25).','Operations on a cancelled payment are untested (R27c).','Only one of the five cancellable payment states is tested (R27a).']},
+{n:'Reversal',sub:'1 rule',c:0,p:0,x:1,gaps:['No test checks the reversal field on a quick refund (R28).','It can be checked in an existing test by reading one more field.','Nothing else in this area.']},
+{n:'Timing and notifications',sub:'5 rules',c:0,p:1,x:4,gaps:['Customer credit time, reference number and emails have no test (R29, R30a, R30b, R31).','Only two of the events are checked (R32).','Time-based rules may not be testable in test mode.']},
+{n:'Idempotency (retry safety)',sub:'7 rules',c:3,p:2,x:2,gaps:['Key length of 255 characters is untested (R34).','Key expiry after 24 hours is untested (R36); needs a way to move time.','The core rule, same key twice never pays twice, is covered.']}
+];
+var COL={c:'var(--ok)',p:'var(--part)',x:'var(--bad)'};
+var ns='http://www.w3.org/2000/svg';
+function circ(svg,len,off,col){var c=document.createElementNS(ns,'circle');c.setAttribute('cx',18);c.setAttribute('cy',18);c.setAttribute('r',15.9155);c.setAttribute('pathLength',100);c.style.fill='none';c.style.strokeWidth='5.5';c.style.stroke=col;if(len!==null){c.setAttribute('stroke-dasharray',len+' '+(100-len));c.setAttribute('stroke-dashoffset',-off)}svg.appendChild(c)}
+var big=document.getElementById('bigsvg'),cur=0;
+function pcOf(a){return Math.round(a.c/(a.c+a.p+a.x)*100)}
+function show(i){
+ cur=i;var a=AREAS[i],N=a.c+a.p+a.x;
+ big.textContent='';circ(big,null,0,'var(--line)');
+ var o=0;[['c',a.c],['p',a.p]].forEach(function(s){var l=s[1]/N*100;if(l>0){circ(big,Math.max(l-0.8,0.1),o,COL[s[0]])}o+=l});
+ document.getElementById('pc').textContent=pcOf(a)+'%';
+ document.getElementById('an').textContent=a.n+' · '+N+' rule'+(N===1?'':'s');
+ var cnt=document.getElementById('cnt');cnt.textContent='';
+ [['c','covered',a.c],['p','partly',a.p],['x','not covered',a.x]].forEach(function(s){var sp=document.createElement('span');var d=document.createElement('i');d.style.background=COL[s[0]];sp.appendChild(d);sp.appendChild(document.createTextNode(s[2]+' '+s[1]));cnt.appendChild(sp)});
+ var g=document.getElementById('gaps');g.textContent='';a.gaps.forEach(function(t){var li=document.createElement('li');li.textContent=t;g.appendChild(li)});
+ document.getElementById('say').textContent=(i===0?'Refunds':'Refunds, '+a.n.toLowerCase())+': '+a.c+' of '+N+' rules clearly covered, '+a.p+' partly, '+a.x+' not. No tests run yet. Biggest gap: '+a.gaps[0].replace(/\.$/,'')+'.';
+ btns.forEach(function(b,j){b.setAttribute('aria-pressed',j===i)});
+}
+var host=document.getElementById('areas'),btns=[];
+AREAS.forEach(function(a,i){
+ var N=a.c+a.p+a.x,b=document.createElement('button');b.className='ar';b.type='button';b.setAttribute('aria-pressed','false');
+ var l=document.createElement('div');var t=document.createElement('b');t.textContent=a.n;var s=document.createElement('small');s.textContent=a.sub;l.appendChild(t);l.appendChild(s);
+ var stk=document.createElement('div');stk.className='stk';
+ [['c',a.c],['p',a.p],['x',a.x]].forEach(function(k){if(k[1]>0){var e=document.createElement('i');e.style.width=(k[1]/N*100)+'%';e.style.background=k[0]==='x'?'var(--line)':COL[k[0]];e.title=k[1];stk.appendChild(e)}});
+ var p=document.createElement('div');p.className='pc';p.textContent=pcOf(a)+'%';
+ b.appendChild(l);b.appendChild(stk);b.appendChild(p);b.onclick=function(){show(i)};host.appendChild(b);btns.push(b);
+});
+show(0);
+document.getElementById('copy').onclick=function(){
+ var b=this,t=document.getElementById('say').textContent;
+ try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied'},function(){b.textContent='Select the text'})}catch(e){b.textContent='Select the text'}
+ setTimeout(function(){b.textContent='Copy'},1800);
+};
+/* critic ring */
+(function(){var svg=document.getElementById('ring2');for(var i=0;i<11;i++){var c=document.createElementNS(ns,'circle');c.setAttribute('cx',18);c.setAttribute('cy',18);c.setAttribute('r',15.9155);c.setAttribute('pathLength',100);var len=100/11;c.setAttribute('stroke-dasharray',(len-1)+' '+(100-len+1));c.setAttribute('stroke-dashoffset',-i*len);c.style.fill='none';c.style.strokeWidth='5.5';c.style.stroke=i<9?'var(--ok)':'var(--part)';svg.appendChild(c)}})();
+/* tile map */
+var T=[
+["T01","Full refund when no amount is given","Medium",1,"R3a R1a",""],
+["T02","Partial refund when an amount is given","Medium",1,"R3b R3c",""],
+["T03","Refund by PaymentIntent equals refund by charge","Medium",1,"R2",""],
+["T04","Refund with no charge and no PaymentIntent","Medium",1,"R1b",""],
+["T05","Several refunds on one charge","Medium",1,"R4",""],
+["T06","Refunds cannot add up to more than the charge","High",1,"R5",""],
+["T07","Two refunds at the same moment that together are too much","High",1,"R5","A pass proves nothing if the two requests were not at the same moment."],
+["T08","Refund amount of zero or below","Low",1,"Q2","Two scenarios in one test: zero and -100."],
+["T09","Refund on a charge that is already fully refunded","Medium",1,"R5",""],
+["T10","A valid reason is saved","Low",1,"R6",""],
+["T11","A reason that is not on the list","Low",1,"R6",""],
+["T12","Metadata can be added and then removed","Low",1,"R7a R7b","Marked 'can run', but the metadata call is unverified in the spec."],
+["T13","A payment on hold cannot be refunded","Medium",1,"R10","Rated Medium. Should be High: money would move on a payment never captured. Also uses an unverified view (V3)."],
+["T14","A payment on hold is cancelled instead","Medium",1,"R10 R27a","Uses an unverified view (V3)."],
+["T15","A payment that already succeeded cannot be cancelled","Medium",1,"R27b",""],
+["T16","A pending refund later becomes succeeded","Medium",1,"R17 R32","'Wait a few minutes' is an invented number. The spec says the delay is not stated."],
+["T17","A refund that succeeds first and then fails","Medium",1,"R18b R19","'Wait a few minutes' is an invented number. The spec says the delay is not stated."],
+["T18","A dispute while a refund is pending","Medium",0,"R20","Cannot run: no test card gives a pending refund and a dispute at once."],
+["T19","Refund on a charge that is already disputed","Medium",1,"none","No pass or fail. It only says to write down what happens."],
+["T20","A card refund cannot be cancelled through the API","Low",1,"R24a","The refund is already done on this card, so a refusal may not come from R24a. The cancel path is unverified."],
+["T21","A card refund cancelled in the Dashboard","Medium",1,"R24b R26","Step 3 uses the charge ID, which 'Before you start' never says to write down."],
+["T22","Sending the same refund twice with the same key","High",1,"R33 R35",""],
+["T23","Same key with different values","Medium",1,"R37",""],
+["T24","A request that failed validation can be retried with the same key","Medium",1,"R38a","Relies on -1 being invalid, which is itself an assumption (T08)."],
+["T25","Two requests with the same key at the same moment","Medium",1,"R38b","A branch inside the test, and the requests may not be truly simultaneous."],
+["T26","Who is allowed to refund","Medium",0,"none","Cannot run: no way to create a key without refund permission."],
+["T27","Refund in a currency with no decimals","Medium",0,"R3c Q3","Cannot run: unknown whether the test card works with yen."],
+["T28","Not enough available balance","Medium",0,"R14 R15a","Cannot run: no pending-balance charge, no way to read the balance."],
+["T29","Reason 'Other' needs a note in the Dashboard","Low",0,"R13","Cannot run: unknown whether the Dashboard flow works in test mode."]
+];
+var map=document.getElementById('map'),det=document.getElementById('det'),tiles=[];
+function showT(i){
+ tiles.forEach(function(t,j){t.setAttribute('aria-pressed',i===j)});
+ var t=T[i];det.textContent='';
+ var h=document.createElement('b');h.textContent=t[0]+'  '+t[1];det.appendChild(h);
+ var m=document.createElement('div');m.className='meta';
+ [t[2]+' importance',t[3]?'Can run now':'Cannot run now','Rules: '+t[4]].forEach(function(x){var s=document.createElement('span');s.textContent=x;m.appendChild(s)});
+ det.appendChild(m);
+ var p=document.createElement('p');p.textContent=t[5]||'No findings from the critic.';det.appendChild(p);
+}
+T.forEach(function(t,i){
+ var b=document.createElement('button');b.type='button';b.className='tile'+(t[3]?(t[5]?' f':''):' n')+(t[2]==='High'?' h':'');
+ b.textContent=t[0].slice(1);b.setAttribute('aria-label',t[0]+', '+t[1]);b.setAttribute('aria-pressed','false');
+ b.onclick=function(){showT(i)};map.appendChild(b);tiles.push(b);
+});
+showT(18);
+</script></body></html>
