@@ -28,7 +28,7 @@ There are 17 rules. The IDs are final.
 - Q2. The issue is already closed when the pull request is merged. Is anything shown? (R2)
 - Q3. The pull request is closed without merging. Does the issue stay open? (R2)
 - Q4. The keyword points to issue #9999 and there is no such issue. What happens at creation and at merge? (R6)
-- Q5. The word is "Closing #10", which is not on the list. Is it ignored? (R5)
+- Q5. Which words count as keywords? The spec does not list them. Is "Closing #10" a keyword or ignored? (R5)
 - Q6. Two pull requests both say "Closes #10". The first is merged. Does the second stay linked? (R2)
 - Q7. A person without write access to the other repository writes "Fixes owner/repo#5". Does it close that issue? (R7)
 - Q8. After the keyword is removed from the description, does the issue stay closed if it was already closed? (R12)

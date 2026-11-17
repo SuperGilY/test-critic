@@ -43,6 +43,7 @@ Why two skills: a writer that checks its own work misses its own mistakes.
 - The critic was checked against 11 defects found by hand in an earlier plan. Critic v3 found 8 clearly. Critic v4 found 9 clearly and 2 partly.
 - Stable rule IDs fixed a real problem: the earlier plan counted 51 claims against 38 rules in the spec. Now the plan and the spec agree on 51.
 - First real run (2026-11-15): one test from the GitHub issues plan (merge closes the linked issue) was run by hand by a tester who does not know GitHub. It passed. It exposed a gap: the steps did not explain what a pull request is or how to make the branch. Both were added to the plan. One test passed once; it does not prove the rest.
+- Clean-context check (2026-11-15): a fresh agent given only the writer skill and the GitHub spec wrote a plan that passed the mechanical checks. Run 1 exposed refund-specific wording and conflicting format rules in the skill. After fixing them, run 2 followed the format, wrote 27 tests, and covered one rule (link by hand) that the hand-edited plan had missed. See `examples/github-issues/test-plan-skill-only.md`. `test-plan-v6.md` in the same folder is the version shaped by a human gate.
 - On the current plan, the critic's top finding is that 27 of 29 tests depend on one setup step nobody has run.
 
 ## Limits
